@@ -13,7 +13,7 @@ while True:
     print("1. Crear rutina")
     print("2. Ver rutinas guardadas")
     print("9. Salir")
-    servicio = input("Ingrese un numerO: ")
+    servicio = input("Ingrese un numero: ")
     servicio = str(servicio)
     if(servicio == "1"):
         data = ""
