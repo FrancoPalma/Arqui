@@ -1,4 +1,3 @@
-import socket
 import sqlite3
 
 def crearRutina(cursor, connection, tipo, zona_cuerpo, intensidad, tiempo_total):
@@ -12,11 +11,11 @@ def crearRutina(cursor, connection, tipo, zona_cuerpo, intensidad, tiempo_total)
         else:
             active_time = 40
             rest_time = 20
-        routine_id = cursor.execute("INSERT INTO routine (active_time, rest_time, total_time, type) values (?,?,?,?)", (active_time, rest_time, tiempo_total, 0)).lastrowid 
+        routine_id = cursor.execute("INSERT INTO routine (active_time, rest_time, total_time, type) values (?,?,?,?)", (active_time, rest_time, tiempo_total, 0)).lastrowid  #guardo el id de la rutina recien creada
         cursor.execute("SELECT id FROM Exercise WHERE ex_zone = 'Otros'")
-        ejercicios_generales = cursor.fetchall()
+        ejercicios_generales = cursor.fetchall()                                                  #guardo los ejercicios otros de cardio
         cursor.execute("SELECT id FROM Exercise WHERE ex_zone=? AND type = '0'", (zona_cuerpo,))
-        ejercicios_especificos = cursor.fetchall()
+        ejercicios_especificos = cursor.fetchall()                                                 #guardo los ejercicios de musculo de cardio
         pos_ejercicios_generales = 0
         pos_ejercicios_especificos = 0
         min_actual = 0
@@ -40,8 +39,8 @@ def crearRutina(cursor, connection, tipo, zona_cuerpo, intensidad, tiempo_total)
 
         connection.commit()
 
-    elif(tipo == 1):
-        routine_id = cursor.execute("INSERT INTO routine (active_time, rest_time, total_time, type) values (?,?,?,?)", (30, 30, tiempo_total, 0)).lastrowid
+    elif(tipo == 1):                                      #caso de musculo
+        routine_id = cursor.execute("INSERT INTO routine (active_time, rest_time, total_time, type) values (?,?,?,?)", (30, 30, tiempo_total, 0)).lastrowid  #guardo el id de la rutina recien creada                            #guardo los ejercicios otros de cardio
         cursor.execute("SELECT id FROM Exercise WHERE ex_zone=? AND (level = ? OR level = ?) AND type = '1'", (zona_cuerpo, intensidad, intensidad - 1))
         ejercicios = cursor.fetchall()
         pos_ejercicios = len(ejercicios) - 1
@@ -59,36 +58,16 @@ def crearRutina(cursor, connection, tipo, zona_cuerpo, intensidad, tiempo_total)
 
         connection.commit()
 
-
-
-sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-host ="200.14.84.235"
-port =5000
-sock.connect((host,port))
-
-sock.send('02000sinitnewrt'.encode())
-data = sock.recv(2010).decode()
-if(data):
-    print(data)
-
-connection = sqlite3.connect('DBprueba.sqlite')
+connection = sqlite3.connect('tables1.sqlite')
 cursor = connection.cursor()
 
-while True:
-        data = sock.recv(2010).decode()
+crearRutina(cursor, connection, 1, "Torso", 1, 10)
 
-        if (data):
-            tipo = data[10]
-            zona_cuerpo = data[11]
-            intensidad = data[12]
-            tiempo_total = data[13:15]
-            sock.send('02000newrtRutina creada'.encode())
-            sock.send('02000svrut123456789')
-            data = sock.recv(2010)
-            print(data)
-        else:
-            break
+#cursor.execute("DELETE FROM Routine_exercise")
+cursor.execute("SELECT * FROM Routine_exercise")
+connection.commit()
+#cursor.execute("SELECT * FROM Exercise WHERE ex_zone='Torso' AND (level = '1' OR level = '2') AND type = '1'")
+aux = cursor.fetchall()
+print(aux)
 
-
-sock.close ()
-conn.close()
+connection.close()
