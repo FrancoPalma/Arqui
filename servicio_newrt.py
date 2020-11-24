@@ -12,7 +12,7 @@ def crearRutina(cursor, connection, tipo, zona_cuerpo, intensidad, tiempo_total)
         else:
             active_time = 40
             rest_time = 20
-        routine_id = cursor.execute("INSERT INTO routine (active_time, rest_time, total_time, type) values (?,?,?,?)", (active_time, rest_time, tiempo_total, 0)).lastrowid 
+        routine_id = cursor.execute("INSERT INTO routine (active_time, rest_time, total_time, type) values (?,?,?,?)", (active_time, rest_time, tiempo_total, 0)).lastrowid
         cursor.execute("SELECT id FROM Exercise WHERE ex_zone = 'Otros'")
         ejercicios_generales = cursor.fetchall()
         cursor.execute("SELECT id FROM Exercise WHERE ex_zone=? AND type = '0'", (zona_cuerpo,))
@@ -78,12 +78,7 @@ while True:
         data = sock.recv(2010).decode()
 
         if (data):
-            tipo = data[10]
-            zona_cuerpo = data[11]
-            intensidad = data[12]
-            tiempo_total = data[13:15]
             sock.send('02000newrtRutina creada'.encode())
-            sock.send('02000svrut123456789')
             data = sock.recv(2010)
             print(data)
         else:
