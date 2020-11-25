@@ -98,7 +98,7 @@ while True:
     count = 0
     proceso = 0
     inicio = 0
-
+    
     root = Tk()
     root.title('Cronometro')
  
