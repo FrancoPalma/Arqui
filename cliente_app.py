@@ -33,25 +33,25 @@ while True:
                 print("Esta opción no es válida")
 
         while 1:
-            intensidad = input("Músculo predominante en rutina:\n 1: Ninguno\n 2: Piernas y glúteos\n 3: Torso y brazos\n 4: Abdomen y lumbares \nIngrese número: ")
-            if ( intensidad == 1 or intensidad == 2 or intensidad == 3 or intensidad == 4):
+            intensidad = input("Intensidad de la rutina:\n 1: Baja\n 2: Media\n 3: Alta \nIngrese número: ")
+            if ( intensidad == 1 or intensidad == 2 or intensidad == 3):
                 break
             else:
                 print("Esta opción no es válida")
 
         while 1:
-            tiempo_total = input("Músculo predominante en rutina:\n 1: Ninguno\n 2: Piernas y glúteos\n 3: Torso y brazos\n 4: Abdomen y lumbares \nIngrese número: ")
-            if ( tiempo_total < 20 ):
+            tiempo_total = input("Tiempo de la rutina \nIngrese número: ")
+            if ( tiempo_total > 0 and tiempo_total < 31 and tiempo_total % 1 == 0 ):
+                if (tiempo_total < 10):
+                    tiempo_total = "0"+ str(tiempo_total)
                 break
             else:
                 print("Esta opción no es válida")
-                
+
         data = "00009newrt"+ str(tipo) + str(zona_cuerpo) + str(intensidad) + str(tiempo_total)
         s.send(data.encode())
 
     elif (servicio == "9"):
         break
 
-    data = s.recv(1024).decode()
-    print(data)
-    s.close ()
+s.close ()

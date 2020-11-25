@@ -1,6 +1,6 @@
 import sqlite3
 
-conn = sqlite3.connect('tables1.sqlite')
+conn = sqlite3.connect('mrmuscle.sqlite')
 cur = conn.cursor()
 cur.execute(
     'CREATE TABLE Routine (id INTEGER PRIMARY KEY, active_time INTEGER, rest_time INTEGER, total_time INTEGER, type int)')
