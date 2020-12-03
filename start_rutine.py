@@ -29,7 +29,7 @@ def iniciar_muscular(m=0,s=0):
         inicio = active_time + rest_time
         active_time = (active_time*2) + rest_time
 
-    if (m == inicio):
+    if (m == rest_time):
         etiqueta = Label(root, text = "Ejercicio "+str(count+1)+": "+lista_ejercicios[count],font = "times 24 bold", fg = "green")
         etiqueta.pack()
         etiqueta = Label(root, text = "Descripción: "+lista_detalle[count],font = "times 24 bold", fg = "green")
