@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -- coding: utf-8 --
 import sqlite3
 
 conn = sqlite3.connect('mrmuscle.sqlite')
@@ -5,9 +7,9 @@ cur = conn.cursor()
 cur.execute(
     'CREATE TABLE Routine (id INTEGER PRIMARY KEY, active_time INTEGER, rest_time INTEGER, total_time INTEGER, type int)')
 cur.execute(
-    'CREATE TABLE Routine_exercise (id INTEGER PRIMARY KEY, id_routine INTEGER, id_ex int, minute int)')
-cur.execute(
     'CREATE TABLE Exercise (id INTEGER PRIMARY KEY, name VARCHAR , detail VARCHAR, type INTEGER, ex_zone VARCHAR, level int)')
+cur.execute(
+    'CREATE TABLE Routine_exercise (id INTEGER PRIMARY KEY, id_routine INTEGER, id_ex INTEGER, minute INTEGER, FOREIGN KEY(id_routine) REFERENCES Routine(id), FOREIGN KEY(id_ex) REFERENCES Exercise(id))')
 
 #MUSCULATURA - Piernas
 # nivel 1

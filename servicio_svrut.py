@@ -50,7 +50,7 @@ def crearRutina(cursor, connection, routine_id, tipo, zona, intensidad, tiempo_t
         connection.commit()
 
     elif(int(tipo) == 2):
-        routine_id = cursor.execute("INSERT INTO Routine (active_time, rest_time, total_time, type) values (?,?,?,?)", (30, 30, tiempo_total, 0)).lastrowid
+        routine_id = cursor.execute("INSERT INTO Routine (active_time, rest_time, total_time, type) values (?,?,?,?)", (30, 30, tiempo_total, 1)).lastrowid
         intensidad_aux = int(intensidad) - 1
         cursor.execute("SELECT id FROM Exercise WHERE ex_zone=? AND (level = ? OR level = ?) AND type = '1'", (zona_cuerpo, intensidad, intensidad_aux ))
         ejercicios = cursor.fetchall()
