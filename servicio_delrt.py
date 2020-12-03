@@ -16,12 +16,12 @@ sock.send('02000sinitdelrt'.encode())
 data = sock.recv(2010).decode()
 
 try:
-    con = sqlite3.connect('Arqui.bd')
+    con = sqlite3.connect('mrmuscle.sqlite')
     print("Connection is established: Database is created in memory")
 except Error:
     print(Error)
 
 if data[10] = '1':
-    delete_task(con,data[11:])
+    delete_task(con,str(int(data[11:])))
 elif data[10] = '2':
     delete_all_tasks(con)

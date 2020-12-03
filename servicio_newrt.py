@@ -9,11 +9,8 @@ sock.send('02000sinitnewrt'.encode())
 data = sock.recv(2010).decode()
 if(data):
     print(data)
-
-
 while True:
         data = sock.recv(2010).decode()
-
         if (data):
             print(data)
             tipo = data[10]
@@ -28,6 +25,4 @@ while True:
             print(data)
         else:
             break
-
-
 sock.close ()
