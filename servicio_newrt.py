@@ -31,7 +31,7 @@ while True:
 
             if(tipo == "1"):
                 if(intensidad=="1"):
-                    cursor.execute("SELECT auxiliar.id FROM (SELECT * FROM Routine WHERE Routine.active_time = '20' AND Routine.rest_time = '40' AND Routine.total_time = ? AND Routine.type = '0') as auxiliar, Routine_exercise, Exercise WHERE auxiliar.id = Routine_exercise.id AND Routine_exercise.id_ex = Exercise.id AND Exercise.ex_zone = ?", (tiempo_total, zona_cuerpo))
+                    cursor.execute("SELECT Routine.id FROM (SELECT Routine.id FROM Routine WHERE Routine.active_time = '20' AND Routine.rest_time = '40' AND Routine.total_time = ? AND Routine.type = '0') as Routine, Routine_exercise, (SELECT Exercise.id FROM Exercise WHERE Exercise.ex_zone = ?) as Exercise WHERE Routine.id = Routine_exercise.id AND Routine_exercise.id_ex = Exercise.id", (tiempo_total, zona_cuerpo))
                 elif(intensidad=="2"):
                     cursor.execute("SELECT * FROM Routine, Routine_exercise, Exercise WHERE  Routine.active_time = '30' AND Routine.rest_time = '30' AND Routine.total_time = ? AND Routine.type = '0' AND Routine.id = Routine_exercise.id AND Routine_exercise.id_ex = Exercise.id AND Exercise.ex_zone = ?", (tiempo_total, zona_cuerpo))
                 elif(intensidad=="3"):
