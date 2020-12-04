@@ -1,7 +1,7 @@
 import socket
 import sqlite3
 
-def crearRutina(cursor, connection, routine_id, tipo, zona, intensidad, tiempo_total):
+def crearRutina(cursor, connection, tipo, zona, intensidad, tiempo_total):
     if(zona == "2"):
         zona_cuerpo= "Piernas"
     elif(zona == "3"):
@@ -9,7 +9,7 @@ def crearRutina(cursor, connection, routine_id, tipo, zona, intensidad, tiempo_t
     elif(zona== "4"):
         zona_cuerpo = "Abdominales"
 
-    if(int(tipo) == 1):                                      #caso de carido
+    if(tipo == "1"):                                      #caso de carido
         if (int(intensidad) == 1):
             active_time = 20
             rest_time = 40
@@ -49,23 +49,20 @@ def crearRutina(cursor, connection, routine_id, tipo, zona, intensidad, tiempo_t
 
         connection.commit()
 
-    elif(int(tipo) == 2):
+    elif(tipo == "2"):
         routine_id = cursor.execute("INSERT INTO Routine (active_time, rest_time, total_time, type) values (?,?,?,?)", (30, 30, tiempo_total, 1)).lastrowid
         intensidad_aux = int(intensidad) - 1
         cursor.execute("SELECT id FROM Exercise WHERE ex_zone=? AND (level = ? OR level = ?) AND type = '1'", (zona_cuerpo, intensidad, intensidad_aux ))
         ejercicios = cursor.fetchall()
-        print(ejercicios)
         pos_ejercicios = len(ejercicios) - 1
         min_actual = 0
         tiempo_total = int(tiempo_total)
 
         while min_actual < tiempo_total:
-            print("test 1")
             if (pos_ejercicios == -1):
                 pos_ejercicios = len(ejercicios) - 1
 
             cursor.execute("INSERT INTO Routine_exercise (id_routine, id_ex, minute) values (?,?,?)", (routine_id, ejercicios[pos_ejercicios][0], min_actual))
-            print("test 2")
             pos_ejercicios -= 1
 
             min_actual += 1
@@ -90,13 +87,24 @@ cursor = connection.cursor()
 while True:
         data = sock.recv(2010).decode()
         if (data):
-            routine_id = data[10:15]
             tipo = data[10]
             zona_cuerpo = data[11]
             intensidad = data[12]
             tiempo_total = data[13:15]
-            crearRutina(cursor, connection, routine_id, tipo, zona_cuerpo, intensidad, tiempo_total)
-            sock.send("00050svrut".encode())
+            sock.send("00050newrt" + data[10:15].encode())
+
+            while True:
+                data = sock.recv(2010).decode()
+                if(data):
+                    break
+
+            print(data)
+            if(data[10:16] == "Nexist"):
+                crearRutina(cursor, connection, tipo, zona_cuerpo, intensidad, tiempo_total)
+                print("Rutina creada")
+
+            elif(data[10:16] == "Sexist"):
+                print("Rutina ya existe")
 
 
 sock.close ()
