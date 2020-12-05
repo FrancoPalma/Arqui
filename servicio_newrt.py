@@ -6,7 +6,7 @@ host ="200.14.84.235"
 port =5000
 sock.connect((host,port))
 
-sock.send('00005sinitnewrt'.encode())
+sock.send('00009sinitnewrt'.encode())
 data = sock.recv(2010).decode()
 if(data):
     print(data)
@@ -41,10 +41,10 @@ while True:
 
             routine = cursor.fetchall()
             if(len(routine) > 0):
-                data = "00009svrutSexist"
+                data = "00009newrtSexist"
                 sock.send(data.encode())
             else:
-                data = "00009svrutNexist"
+                data = "00009newrtNexist"
                 sock.send(data.encode())
 
 sock.close ()

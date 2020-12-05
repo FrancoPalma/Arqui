@@ -98,12 +98,12 @@ while True:
                 if(data):
                     break
 
-            print(data)
-            if(data[10:16] == "Nexist"):
+            print(data[12:18])
+            if(data[12:18] == "Nexist"):
                 crearRutina(cursor, connection, tipo, zona_cuerpo, intensidad, tiempo_total)
                 print("Rutina creada")
 
-            elif(data[10:16] == "Sexist"):
+            elif(data[12:18] == "Sexist"):
                 print("Rutina ya existe")
 
 
