@@ -4,7 +4,6 @@
 import socket
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.connect(("200.14.84.235",5000))
-s.send('02000sinitclien'.encode())
 data = s.recv(2010).decode()
 
 print("="*10+"Bienvenido a MrMuscle"+"="*10)
@@ -52,7 +51,15 @@ while True:
         s.send(data.encode())
         data = s.recv(1024).decode()
     elif (servicio == "2"):
-      print("hola")
+      data = "00000shows"
+      print(data)
+      s.send(data.encode())
+      data = s.recv(1024).decode()
+      while(true):
+          print("\nEscoja un servicio")
+          print("1. Realizar rutina.")
+          print("2. Editar rutina.")
+          print("9. Volver atrás.")
     elif (servicio == "9"):
         break
 

@@ -25,3 +25,4 @@ if data[10] = '1':
     delete_task(con,str(int(data[11:])))
 elif data[10] = '2':
     delete_all_tasks(con)
+sock.send('00050delrtLISTO'.encode())

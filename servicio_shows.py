@@ -15,5 +15,7 @@ cursor = connection.cursor()
 
 cursor.execute('SELECT * FROM Routine')
 rows = cursor.fetchall()
-for row in rows:
-    print(row)
+for i in range(len(rows)):
+    print(str(1+i)+") "+rows[i])
+
+sock.send('00050showsLISTO'.encode())
