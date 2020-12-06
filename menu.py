@@ -50,31 +50,26 @@ while True:
         s.send(data.encode())
         data = s.recv(1024).decode()
     elif (servicio == "2"):
-      data = "00000shows"
-      s.send(data.encode())
-      number = s.recv(1024).decode()
-      rutinas = []
-      print(number)
-      for i in range(int(number[10:])):
-          rutinas.append(s.recv(1024).decode())
-      for rut in rutinas:
-          print(rut[10:])
-      while(true):
-          print("\nEscoja un servicio")
-          print("1. Realizar rutina.")
-          print("2. Editar rutina.")
-          print("9. Volver atrás.")
-          if ver == 1:
-              numero = int(input("Indique el número de la rutina"))
-              data = rutinas[numero].split()
-              data = "00090start"+ data[1]
-              s.send(data.encode())
-          elif ver == 2:
-              numero = int(input("Indique el número de la rutina"))
-              data = rutinas[numero].split()
-              data = "00090edirt"+ data[1]
-              s.send(data.encode())
-          elif ver == 9:
-              break
+        connection = sqlite3.connect('mrmuscle.sqlite')
+        cursor = connection.cursor()
+        cursor.execute('SELECT * FROM Routine')
+        rows = cursor.fetchall()
+        for i in rows:
+            print(i)
+        while(true):
+            print("\nEscoja un servicio")
+            print("1. Realizar rutina.")
+            print("2. Editar rutina.")
+            print("9. Volver atrás.")
+            if ver == 1:
+                numero = int(input("Indique el id de la rutina"))
+                data = "00090start"+ str(numero)
+                s.send(data.encode())
+            elif ver == 2:
+                numero = int(input("Indique el id de la rutina"))
+                data = "00090edirt"+ str(numero)
+                s.send(data.encode())
+            elif ver == 9:
+                break
     elif (servicio == "9"):
         break
