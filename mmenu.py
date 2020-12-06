@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -- coding: utf-8 --
-
 import socket
+import sqlite3
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.connect(("200.14.84.235",5000))
 
@@ -45,37 +45,47 @@ while True:
             else:
                 print("Esta opción no es válida")
 
-        data = "00009newrt"+ str(tipo) + str(zona_cuerpo) + str(intensidad) + str(tiempo_total)
-        print(data)
+        data = "00009svrut"+ str(tipo) + str(zona_cuerpo) + str(intensidad) + str(tiempo_total)
         s.send(data.encode())
         data = s.recv(1024).decode()
     elif (servicio == "2"):
-      data = "00000shows"
-      s.send(data.encode())
-      number = s.recv(1024).decode()
-      rutinas = []
-      print(number)
-      for i in range(int(number[10:])):
-          rutinas.append(s.recv(1024).decode())
-      for rut in rutinas:
-          print(rut[10:])
-          
-      while(true):
-          print("\nEscoja un servicio")
-          print("1. Realizar rutina.")
-          print("2. Editar rutina.")
-          print("9. Volver atrás.")
-          if ver == 1:
-              numero = int(input("Indique el número de la rutina"))
-              data = rutinas[numero].split()
-              data = "00090start"+ data[1]
-              s.send(data.encode())
-          elif ver == 2:
-              numero = int(input("Indique el número de la rutina"))
-              data = rutinas[numero].split()
-              data = "00090edirt"+ data[1]
-              s.send(data.encode())
-          elif ver == 9:
-              break
+        data = "00000shows"
+        s.send(data.encode())
+        number = s.recv(1024).decode()
+        number = int(number[12:])
+        rutinas = []
+        print(number)
+        for i in range(number):
+            rutinas.append(s.recv(1024).decode())
+        for rut in rutinas:
+            print(rut[12:])
+        while(True):
+            print("\nEscoja un servicio")
+            print("1. Realizar rutina.")
+            print("2. Editar rutina.")
+            print("3. Eliminar")
+            print("9. Volver atrás.")
+            ver = int(input())
+            #Realizar
+            if ver == 1:
+                id = int(input("Indique el id de la rutina"))
+                data = "00090start"+ str(id)
+                s.send(data.encode())
+
+            #Editar
+            elif ver == 2:
+                id = int(input("Indique el id de la rutina"))
+                data = "00090edirt"+ str(id)
+                s.send(data.encode())
+
+            #Eliminar
+            elif ver == 3:
+                id = str(input("Indique el id de la rutina"))
+                data = "00020delrt1"+id
+                s.send(data.encode())
+                data = s.recv(1024).decode()
+                print(data[10:])
+            elif ver == 9:
+                break
     elif (servicio == "9"):
         break
