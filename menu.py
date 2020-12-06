@@ -1,10 +1,9 @@
 #!/usr/bin/env python
 # -- coding: utf-8 --
-
+print("HOLA ESTRELLITAS")
 import socket
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.connect(("200.14.84.235",5000))
-data = s.recv(2010).decode()
 
 print("="*10+"Bienvenido a MrMuscle"+"="*10)
 opcion = 0
