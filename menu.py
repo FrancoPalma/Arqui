@@ -60,15 +60,27 @@ while True:
             print("\nEscoja un servicio")
             print("1. Realizar rutina.")
             print("2. Editar rutina.")
+            print("3. Eliminar")
             print("9. Volver atrás.")
+            #Realizar
             if ver == 1:
                 id = int(input("Indique el id de la rutina"))
                 data = "00090start"+ str(id)
                 s.send(data.encode())
+
+            #Editar
             elif ver == 2:
                 id = int(input("Indique el id de la rutina"))
                 data = "00090edirt"+ str(id)
                 s.send(data.encode())
+
+            #Eliminar
+            elif ver == 3:
+                id = str(input("Indique el id de la rutina"))
+                data = "00020delrt1"+id
+                s.send(data.encode())
+                data = s.recv(1024).decode()
+                print(data[10:])
             elif ver == 9:
                 break
     elif (servicio == "9"):
