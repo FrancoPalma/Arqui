@@ -98,13 +98,14 @@ while True:
                 if(data):
                     break
 
-            print(data[12:18])
             if(data[12:18] == "Nexist"):
                 crearRutina(cursor, connection, tipo, zona_cuerpo, intensidad, tiempo_total)
                 print("Rutina creada")
+                sock.send("00050svrutRutina creada".encode())
 
             elif(data[12:18] == "Sexist"):
                 print("Rutina ya existe")
+                sock.send("00050svrutRutina ya existe".encode())
 
 
 sock.close ()
