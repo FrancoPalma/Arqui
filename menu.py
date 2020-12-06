@@ -62,12 +62,12 @@ while True:
             print("2. Editar rutina.")
             print("9. Volver atrás.")
             if ver == 1:
-                numero = int(input("Indique el id de la rutina"))
-                data = "00090start"+ str(numero)
+                id = int(input("Indique el id de la rutina"))
+                data = "00090start"+ str(id)
                 s.send(data.encode())
             elif ver == 2:
-                numero = int(input("Indique el id de la rutina"))
-                data = "00090edirt"+ str(numero)
+                id = int(input("Indique el id de la rutina"))
+                data = "00090edirt"+ str(id)
                 s.send(data.encode())
             elif ver == 9:
                 break
