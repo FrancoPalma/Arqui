@@ -3,14 +3,14 @@ import socket
 import sqlite3
 import time
 import winsound
-'''
+
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 host ="200.14.84.235"
 port =5000
 s.connect((host,port))
 
 s.send('02000sinitstart'.encode())
-'''
+
 def iniciar(m=0,s=0):
     global proceso
     global active_time
@@ -79,7 +79,7 @@ while True:
     
 
     lista_ejercicios = []
-    cursor.execute('SELECT name FROM exercise, routine_exercise, routine WHERE id_exercise.routine_exercise = id.exercise AND '+str(id)+'= id_routine.routine_exercise ')
+    cursor.execute('SELECT name FROM Exercise, Routine_exercise, Routine WHERE id_exercise.Routine_exercise = id.Exercise AND '+str(id)+'= id_routine.Routine_exercise ')
     rows = cursor.fetchall()
 
     for row in rows:
@@ -87,21 +87,21 @@ while True:
     
 
     lista_detalle = []
-    cursor.execute('SELECT detail FROM exercise, routine_exercise, routine WHERE id_exercise.routine_exercise = id.exercise AND '+str(id)+'= id_routine.routine_exercise ')
+    cursor.execute('SELECT detail FROM Exercise, Routine_exercise, Routine WHERE id_exercise.Routine_exercise = id.Exercise AND '+str(id)+'= id_routine.Routine_exercise ')
     rows = cursor.fetchall()
 
     for row in rows:
         lista_detalle.append(row[0])    
 
-    cursor.execute('SELECT active_time FROM routine WHERE id.routine = '+str(id))
+    cursor.execute('SELECT active_time FROM Routine WHERE id.Routine = '+str(id))
     active_time = cursor.fetchall()
     active_time = active_time[0]
 
-    cursor.execute('SELECT rest_time FROM routine WHERE id.routine = '+str(id))
+    cursor.execute('SELECT rest_time FROM Routine WHERE id.Routine = '+str(id))
     rest_time = cursor.fetchall()
     rest_time = rest_time[0]
 
-    cursor.execute('SELECT total_time FROM routine WHERE id.routine = '+str(id))
+    cursor.execute('SELECT total_time FROM Routine WHERE id.Routine = '+str(id))
     total_time = cursor.fetchall()
     total_time = total_time[0]
 
