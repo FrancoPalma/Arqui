@@ -54,12 +54,21 @@ while True:
       data = "00000shows"
       print(data)
       s.send(data.encode())
-      data = s.recv(1024).decode()
+      number = s.recv(1024).decode()
+      for i in range(int(number[10:]):
+          data = s.recv(1024).decode()
+          print(data[10:])
       while(true):
           print("\nEscoja un servicio")
           print("1. Realizar rutina.")
           print("2. Editar rutina.")
           print("9. Volver atrás.")
+          if ver == 1:
+              print("hola")
+          elif ver == 2:
+              print("hola")
+          elif ver == 9:
+              break
     elif (servicio == "9"):
         break
 
