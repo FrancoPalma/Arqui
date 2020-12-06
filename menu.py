@@ -56,7 +56,7 @@ while True:
       s.send(data.encode())
       number = s.recv(1024).decode()
       rutinas = []
-      for i in range(int(number[10:]):
+      for i in range(int(number[10:])):
           rutinas.append(s.recv(1024).decode())
       for rut in rutinas:
           print(rut[10:])
