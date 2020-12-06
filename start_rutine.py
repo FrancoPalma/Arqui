@@ -1,8 +1,6 @@
-from tkinter import Tk,Label,Button,Frame
 import socket
 import sqlite3
 import time
-import winsound
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 host ="200.14.84.235"
