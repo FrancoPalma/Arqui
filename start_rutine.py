@@ -40,6 +40,7 @@ def iniciar(m=0,s=0):
 
     if (count == 0):
         winsound.Beep(1000,1000)
+        rest_time = 1
         etiqueta = Label(root, text = "Comenzando rutina",font = "times 24 bold", fg = "blue")
         etiqueta.pack()        
         etiqueta = Label(root, text = "Ejercicio "+str(count+1)+": "+lista_ejercicios[count],font = "times 24 bold", fg = "green")
@@ -121,6 +122,9 @@ while True:
 count = 0
 proceso = 0
 inicio = 0
+active_time = 30
+rest_time = 30
+total_time = 2
 
 lista_ejercicios = ['hola','mundo','xd']
 lista_detalle = ['aloh','donmu','dx']
