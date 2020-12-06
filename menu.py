@@ -51,12 +51,15 @@ while True:
         s.send(data.encode())
         data = s.recv(1024).decode()
     elif (servicio == "2"):
-        connection = sqlite3.connect('mrmuscle.sqlite')
-        cursor = connection.cursor()
-        cursor.execute('SELECT * FROM Routine')
-        rows = cursor.fetchall()
-        for i in rows:
-            print(i)
+        data = "00000shows"
+        s.send(data.encode())
+        number = s.recv(1024).decode()
+        rutinas = []
+        print(number)
+        for i in range(int(number[10:])):
+            rutinas.append(s.recv(1024).decode())
+        for rut in rutinas:
+            print(rut[10:])
         while(True):
             print("\nEscoja un servicio")
             print("1. Realizar rutina.")
