@@ -12,7 +12,6 @@ s.connect((host,port))
 s.send('02000sinitstart'.encode())
 
 def iniciar(m=0,s=0):
-    global proceso
     global active_time
     global rest_time
     global total_time
