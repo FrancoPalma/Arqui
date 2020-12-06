@@ -1,7 +1,7 @@
 import sqlite3
 import socket
 
-conn = sqlite3.connect('hashes_4.sqlite')
+conn = sqlite3.connect('mrmuscle.sqlite')
 cur = conn.cursor()
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -18,10 +18,11 @@ while True:
 
     if (data):
         print(data)
-        ide = data[10:17]
+        ide = data[10:15]
         ide = int(ide)
         cur.execute('SELECT * FROM Exercises WHERE id=(?)', ide)
         rut = cur.fetchall()
+        print(rut)
         if rut:
             new_rut = ""
             tipo = input(
@@ -36,10 +37,15 @@ while True:
                 "Ingrese la cantidad de segundos de tiempo activo por ejercicio: ")
             tiempo_descanso = input(
                 "Ingrese la cantidad de segundos para descansar entre ejercicios: ")
-            new_rut = "00009updrt" + str(tipo) + str(zona_cuerpo) + str(intensidad) + str(
+
+            delrt = "02000delrt"+ide
+            s.send(delrt.encode())
+            while True:
+                data = sock.recv(2010).decode()
+                if(data):
+                    break
+            new_rut = "00009newrt" + str(tipo) + str(zona_cuerpo) + str(intensidad) + str(
                 tiempo_total) + str(tiempo_activo) + str(tiempo_descanso)
-            # hay que llamar a eliminar rutina con el id ide
-            # hay que llamar a crear rutina, que a su vez implica un nuevo servicio que verifique que si la rutina nueva ya existe
             s.send(new_rut.encode())
         else:
             print("No existe dicha rutina, intente nuevamente")
