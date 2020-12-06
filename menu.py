@@ -55,21 +55,27 @@ while True:
       print(data)
       s.send(data.encode())
       number = s.recv(1024).decode()
+      rutinas = []
       for i in range(int(number[10:]):
-          data = s.recv(1024).decode()
-          print(data[10:])
+          rutinas.append(s.recv(1024).decode())
+      for rut in rutinas:
+          print(rut[10:])
       while(true):
           print("\nEscoja un servicio")
           print("1. Realizar rutina.")
           print("2. Editar rutina.")
           print("9. Volver atrás.")
           if ver == 1:
-              print("hola")
+              numero = int(input("Indique el número de la rutina"))
+              data = rutinas[numero].split()
+              data = "00090start"+ data[1]
+              s.send(data.encode())
           elif ver == 2:
-              print("hola")
+              numero = int(input("Indique el número de la rutina"))
+              data = rutinas[numero].split()
+              data = "00090edirt"+ data[1]
+              s.send(data.encode())
           elif ver == 9:
               break
     elif (servicio == "9"):
         break
-
-    print(data)
