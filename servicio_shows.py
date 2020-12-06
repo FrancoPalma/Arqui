@@ -1,5 +1,5 @@
 import socket
-
+import sqlite3
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 host ="200.14.84.235"
 port =5000

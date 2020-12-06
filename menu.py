@@ -51,10 +51,10 @@ while True:
         data = s.recv(1024).decode()
     elif (servicio == "2"):
       data = "00000shows"
-      print(data)
       s.send(data.encode())
       number = s.recv(1024).decode()
       rutinas = []
+      print(number)
       for i in range(int(number[10:])):
           rutinas.append(s.recv(1024).decode())
       for rut in rutinas:
