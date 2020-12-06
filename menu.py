@@ -2,6 +2,7 @@
 # -- coding: utf-8 --
 print("HOLA ESTRELLITAS")
 import socket
+import sqlite3
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.connect(("200.14.84.235",5000))
 
@@ -56,12 +57,13 @@ while True:
         rows = cursor.fetchall()
         for i in rows:
             print(i)
-        while(true):
+        while(True):
             print("\nEscoja un servicio")
             print("1. Realizar rutina.")
             print("2. Editar rutina.")
             print("3. Eliminar")
             print("9. Volver atrás.")
+            ver = int(input())
             #Realizar
             if ver == 1:
                 id = int(input("Indique el id de la rutina"))
