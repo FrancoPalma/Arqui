@@ -46,8 +46,7 @@ while True:
             else:
                 print("Esta opción no es válida")
 
-        data = "00009newrt"+ str(tipo) + str(zona_cuerpo) + str(intensidad) + str(tiempo_total)
-        print(data)
+        data = "00009svrut"+ str(tipo) + str(zona_cuerpo) + str(intensidad) + str(tiempo_total)
         s.send(data.encode())
         data = s.recv(1024).decode()
     elif (servicio == "2"):
