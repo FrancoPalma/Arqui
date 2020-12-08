@@ -3,6 +3,84 @@
 import sqlite3
 import socket
 
+
+def actualizarRutina(cursor, connection, tipo, zona, intensidad, tiempo_total):
+    if(zona == "2"):
+        zona_cuerpo = "Piernas"
+    elif(zona == "3"):
+        zona_cuerpo = "Torso"
+    elif(zona == "4"):
+        zona_cuerpo = "Abdominales"
+
+    if(tipo == "1"):  # caso de carido
+        if (int(intensidad) == 1):
+            active_time = 20
+            rest_time = 40
+        elif (int(intensidad) == 2):
+            active_time = 30
+            rest_time = 30
+        else:
+            active_time = 40
+            rest_time = 20
+
+        routine_id = cursor.execute("INSERT INTO Routine (active_time, rest_time, total_time, type) values (?,?,?,?)", (
+            active_time, rest_time, tiempo_total, 0)).lastrowid
+        cursor.execute("SELECT id FROM Exercise WHERE ex_zone = 'Otros'")
+        ejercicios_generales = cursor.fetchall()
+        cursor.execute(
+            "SELECT id FROM Exercise WHERE ex_zone=? AND type = '0'", (zona_cuerpo,))
+        ejercicios_especificos = cursor.fetchall()
+        pos_ejercicios_generales = 0
+        pos_ejercicios_especificos = 0
+        min_actual = 0
+        tiempo_total = int(tiempo_total)
+
+        while min_actual < tiempo_total:
+
+            # si se acaban los ejercicios los utilizo de nuevo
+            if (len(ejercicios_generales) == pos_ejercicios_generales):
+                pos_ejercicios_generales = 0
+
+            if (len(ejercicios_especificos) == pos_ejercicios_especificos):
+                pos_ejercicios_especificos = 0
+
+            if min_actual % 2 != 0:
+                cursor.execute("INSERT INTO Routine_exercise (id_routine, id_ex, minute) values (?,?,?)", (
+                    routine_id, ejercicios_generales[pos_ejercicios_generales][0], min_actual))
+                pos_ejercicios_generales += 1
+            else:
+                cursor.execute("INSERT INTO Routine_exercise (id_routine, id_ex, minute) values (?,?,?)", (
+                    routine_id, ejercicios_especificos[pos_ejercicios_especificos][0], min_actual))
+                pos_ejercicios_especificos += 1
+
+            min_actual += 1
+
+        connection.commit()
+
+    elif(tipo == "2"):
+        routine_id = cursor.execute(
+            "INSERT INTO Routine (active_time, rest_time, total_time, type) values (?,?,?,?)", (30, 30, tiempo_total, 1)).lastrowid
+        intensidad_aux = int(intensidad) - 1
+        cursor.execute("SELECT id FROM Exercise WHERE ex_zone=? AND (level = ? OR level = ?) AND type = '1'",
+                       (zona_cuerpo, intensidad, intensidad_aux))
+        ejercicios = cursor.fetchall()
+        pos_ejercicios = len(ejercicios) - 1
+        min_actual = 0
+        tiempo_total = int(tiempo_total)
+
+        while min_actual < tiempo_total:
+            if (pos_ejercicios == -1):
+                pos_ejercicios = len(ejercicios) - 1
+
+            cursor.execute("INSERT INTO Routine_exercise (id_routine, id_ex, minute) values (?,?,?)",
+                           (routine_id, ejercicios[pos_ejercicios][0], min_actual))
+            pos_ejercicios -= 1
+
+            min_actual += 1
+
+        connection.commit()
+
+
 conn = sqlite3.connect('mrmuscle.sqlite')
 cur = conn.cursor()
 
@@ -20,35 +98,33 @@ while True:
 
     if (data):
         print(data)
-        ide = data[10:15]
+        ide = data[10:13]
         ide = int(ide)
         cur.execute('SELECT * FROM Exercises WHERE id=(?)', ide)
         rut = cur.fetchall()
         print(rut)
         if rut:
-            new_rut = ""
-            tipo = input(
-                "Escoja el tipo de rutina:\n 1: Cardio\n 2: Masa muscular \n Ingrese número: ")
-            zona_cuerpo = input(
-                "Músculo predominante en rutina:\n 1: Ninguno\n 2: Piernas y glúteos\n 3: Torso y brazos\n 4: Abdomen y lumbares \nIngrese número: ")
-            intensidad = input(
-                "Escoja la intensidad:\n 1: Baja\n 2: Media\n 3: Alta\n Ingrese número: ")
-            tiempo_total = input(
-                "Ingrese la cantidad de minutos que desee que dure la rutina: ")
-            tiempo_activo = input(
-                "Ingrese la cantidad de segundos de tiempo activo por ejercicio: ")
-            tiempo_descanso = input(
-                "Ingrese la cantidad de segundos para descansar entre ejercicios: ")
+            print(data)
+            tipo = data[14]
+            zona_cuerpo = data[15]
+            intensidad = data[16]
+            tiempo_total = data[17:19]
+            sock.send("00050delrt" + ide)
 
-            delrt = "02000delrt"+ide
-            s.send(delrt.encode())
             while True:
                 data = sock.recv(2010).decode()
                 if(data):
                     break
-            new_rut = "00009newrt" + str(tipo) + str(zona_cuerpo) + str(intensidad) + str(
-                tiempo_total) + str(tiempo_activo) + str(tiempo_descanso)
-            s.send(new_rut.encode())
+
+            sock.send("00050newrt" + data[14:19].encode())
+
+            while True:
+                data = sock.recv(2010).decode()
+                if(data):
+                    break
+
+            print("Rutina actualizada")
+            sock.send("00050edirtRutina actualizada".encode())
         else:
             print("No existe dicha rutina, intente nuevamente")
             sock.send('02000selrut')
