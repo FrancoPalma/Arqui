@@ -20,7 +20,7 @@ def iniciar(m=0,s=0):
         print(s)
 
     
-        if (m == tiempo_total[0] and s == tiempo_total[1]):
+        if (m == tiempo_total and s == tiempo_activo):
             sock.send("00020startFIN")
             break
 
@@ -103,13 +103,11 @@ while True:
         total_time = cursor.fetchall()
         total_time = total_time[0][0]
         print(total_time)
-        tiempo_total = [total_time , 30]
 
 
 
-        data = "Iniciando la rutina "+str(id)
+        data = "EJERCICIO 1: "+str(lista_ejercicios)
         aux = len(data)
         data = "000"+str(aux)+"start"+data
         sock.send(data.encode())
-        print("LARGO LISTA: " + str(len(lista_ejercicios)))
         iniciar()
