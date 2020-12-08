@@ -101,7 +101,7 @@ while True:
 
         cursor.execute('SELECT total_time FROM Routine WHERE Routine.id = '+str(id))
         total_time = cursor.fetchall()
-        total_time = total_time[0][0]
+        tiempo_total = total_time[0][0]
         print(total_time)
 
 
