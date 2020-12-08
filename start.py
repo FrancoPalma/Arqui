@@ -11,31 +11,35 @@ def iniciar(m=0,s=0):
     global tiempo_total
     global count
     global sock
+
+
     while True:
         time.sleep(1)
         s += 1
         sock.send("00010start"+str(s))
         print(s)
-        if s >= 60:
-            s=0
-            m=m+1
 
-        if (m == tiempo_total):
+    
+        if (m == tiempo_total[0] and s == tiempo_total[1]):
             sock.send("00020startFIN")
             break
 
-        if(s == tiempo_activo and m != tiempo_total):
+        if(s == tiempo_activo):
             data = "COMENZANDO DESCANSO"
             aux = len(data)
             data = "000"+str(aux)+"start"+data
             sock.send(data.encode())
 
-        if (s == tiempo_descanso and m != tiempo_total):
+        if (s == tiempo_descanso):
             data = "EJERCICIO "+str(count+1)+": "+lista_ejercicios[count]
             aux = len(data)
             data = "000"+str(aux)+"start"+data
             sock.send(data.encode())
             count+=1
+
+        if s >= 60:
+            s=0
+            m=m+1
 
         """if(s + 10 == tiempo_activo):
             data = "FALTAN 10 SEGUNDOS PARA EL DESCANSO"
@@ -97,8 +101,11 @@ while True:
 
         cursor.execute('SELECT total_time FROM Routine WHERE Routine.id = '+str(id))
         total_time = cursor.fetchall()
+        total_time = total_time[0][0]
         print(total_time)
-        tiempo_total = total_time[0][0]
+        tiempo_total = [2 , 30]
+
+
 
         data = "Iniciando la rutina "+str(id)
         aux = len(data)
