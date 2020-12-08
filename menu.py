@@ -50,15 +50,19 @@ while True:
         s.send(data.encode())
         data = s.recv(1024).decode()
     elif (servicio == "2"):
+        #de aqui
         data = "00000shows"
         s.send(data.encode())
-        number = s.recv(1024).decode()
-        rutinas = []
-        print(number)
-        for i in range(int(number[10:])):
-            rutinas.append(s.recv(1024).decode())
+        while 1:
+            data = s.recv(1024).decode()
+            if data[10:] == "FIN":
+                break
+            else:
+                rutinas.append(data)
+            s.send("Listo".encode())
         for rut in rutinas:
             print(rut[10:])
+        #hasta aqui
         while(True):
             print("\nEscoja un servicio")
             print("1. Realizar rutina.")

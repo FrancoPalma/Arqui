@@ -16,12 +16,11 @@ while 1:
     data = sock.recv(2010).decode()
     cursor.execute('SELECT * FROM Routine')
     rows = cursor.fetchall()
-    sock.send('00055shows'+str(len(rows)).encode())
     for i in range(len(rows)):
         rutina = ""
         for j in rows[i]:
             rutina += " " + str(j)
         data = '01000shows' + rutina
         sock.send(data.encode())
-        print(data)
-        time.sleep(0.1)
+        data = sock.recv(2010).decode()
+    sock.send("FIN".encode())
