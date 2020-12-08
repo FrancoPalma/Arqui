@@ -53,6 +53,7 @@ while True:
         s.send(data.encode())
         number = s.recv(1024).decode()
         number = int(number[12:])
+        print(number)
         rutinas = []
         print(number)
         for i in range(number):
@@ -68,17 +69,24 @@ while True:
             ver = int(input())
             #Realizar
             if ver == 1:
-                id = int(input("Indique el id de la rutina"))
+                id = int(input("Indique el id de la rutina: "))
                 data = "00090start"+ str(id)
                 s.send(data.encode())
-                
+
                 while True:
-                  data = s.recv(2010).decode()
-                  data = data[10:]
-                  if data == 9:
-                      break
-                  else:
-                      print(data)
+                    data = s.recv(2010).decode()
+                    if(data):
+                        data = data[12:]
+                        if(len(data) > 2):
+                            data1 = data[0:2]
+                            data2 = data[12:]
+                            if data2 == "FIN":
+                                print("HAZ TERMINAD LA RUTINA")
+                                break
+                            else:
+                                print(data1 + "     " + data2)
+                        else:
+                            print(data)
 
             #Editar
             elif ver == 2:
