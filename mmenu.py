@@ -58,7 +58,33 @@ while True:
         for i in range(number):
             rutinas.append(s.recv(1024).decode())
         for rut in rutinas:
-            print(rut[12:])
+            imprimir = rut[12:]
+            imprimir = imprimir.split()
+            cout = imprimir[0]
+
+            if imprimir[1] == "1":
+                cout += "| Cardio |"
+            else:
+                cout += "| Masa Muscular |"
+
+            if imprimir[2] == "1":
+                cout += " Ninguno |"
+            elif imprimir[2] == "2":
+                cout += " Piernas y glúteos |"
+            elif imprimir[2] == "3":
+                cout += " Torso y brazos |"
+            elif imprimir[2] == "4":
+                cout += " Abdomen y lumbares |"
+
+            if imprimir[3] == "1":
+                cout += " Baja |"
+            elif imprimir[3] == "2":
+                cout += " Media |"
+            elif imprimir[3] == "3":
+                cout += " Alta |"
+
+            cout += "Tiempo: "+imprimir[4]+" min|"
+            print(cout)
         while(True):
             print("\nEscoja un servicio")
             print("1. Realizar rutina.")
@@ -71,7 +97,7 @@ while True:
                 id = int(input("Indique el id de la rutina"))
                 data = "00090start"+ str(id)
                 s.send(data.encode())
-                
+
                 while True:
                   data = s.recv(2010).decode()
                   data = data[10:]
