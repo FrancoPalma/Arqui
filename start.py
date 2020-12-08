@@ -20,7 +20,7 @@ def iniciar(m=0,s=0):
         print(s)
 
     
-        if (m == tiempo_total and s == tiempo_activo):
+        if (m == tiempo_total):
             sock.send("00020startFIN")
             break
 
