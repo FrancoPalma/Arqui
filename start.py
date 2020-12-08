@@ -36,15 +36,6 @@ def iniciar(m=0,s=0):
             data = "000"+str(aux)+"start"+data
             sock.send(data.encode())
             count+=1
-            tiempo_descanso+=1
-
-        if (count == 0):
-            data = "EJERCICIO "+str(count+1)+": "+lista_ejercicios[count]
-            aux = len(data)
-            data = "000"+str(aux)+"start"+ data
-            sock.send(data.encode())
-            count+=1
-            tiempo_descanso = 1
 
         """if(s + 10 == tiempo_activo):
             data = "FALTAN 10 SEGUNDOS PARA EL DESCANSO"
