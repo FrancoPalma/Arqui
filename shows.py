@@ -17,7 +17,7 @@ while 1:
     cursor.execute('SELECT * FROM Routine')
     rows = cursor.fetchall()
     sock.send('00055shows'+str(len(rows)).encode())
-    time.sleep(0.5)
+    time.sleep(0.1)
     for i in range(len(rows)):
         rutina = ""
         for j in rows[i]:
@@ -25,4 +25,4 @@ while 1:
         data = '01000shows' + rutina
         sock.send(data.encode())
         print(data)
-        time.sleep(0.5)
+        time.sleep(0.1)

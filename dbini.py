@@ -91,11 +91,9 @@ if(data):
 connection = sqlite3.connect('mrmuscle.sqlite')
 cursor = connection.cursor()
 
-cursor.execute("SELECT * FROM Exercise")
-aux = cursor.fetchall()
-
-if(len(aux) == 0):
+try:
+    cursor.execute("SELECT EXISTS (SELECT * FROM Exercise)")
+    print("PUEDE INICIAR")
+except:
     DB(connection, cursor)
-    sock.send("00050dbiniYa puede crear sus rutinas.".encode())
-else:
-    sock.send("00050dbiniUsted ya ha hecho esto antes.".encode())
+    print("PUEDE INICIAR")

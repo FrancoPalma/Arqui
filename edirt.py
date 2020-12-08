@@ -22,8 +22,7 @@ while True:
         print(data)
         ide = data[10:15]
         ide = int(ide)
-        print(ide)
-        cur.execute('SELECT * FROM Exercise WHERE id=?', (ide,))
+        cur.execute('SELECT * FROM Exercises WHERE id=(?)', ide)
         rut = cur.fetchall()
         print(rut)
         if rut:
@@ -36,8 +35,12 @@ while True:
                 "Escoja la intensidad:\n 1: Baja\n 2: Media\n 3: Alta\n Ingrese número: ")
             tiempo_total = input(
                 "Ingrese la cantidad de minutos que desee que dure la rutina: ")
+            tiempo_activo = input(
+                "Ingrese la cantidad de segundos de tiempo activo por ejercicio: ")
+            tiempo_descanso = input(
+                "Ingrese la cantidad de segundos para descansar entre ejercicios: ")
 
-            delrt = "02000delrt"+ str(ide)
+            delrt = "02000delrt"+ide
             s.send(delrt.encode())
             while True:
                 data = sock.recv(2010).decode()
