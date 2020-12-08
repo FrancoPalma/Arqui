@@ -71,6 +71,14 @@ while True:
                 id = int(input("Indique el id de la rutina"))
                 data = "00090start"+ str(id)
                 s.send(data.encode())
+                
+                while True:
+                  data = s.recv(2010).decode()
+                  data = data[10:]
+                  if data == 9:
+                      break
+                  else:
+                      print(data)
 
             #Editar
             elif ver == 2:
