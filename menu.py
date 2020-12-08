@@ -50,16 +50,14 @@ while True:
         s.send(data.encode())
         data = s.recv(1024).decode()
     elif (servicio == "2"):
-        #DE AQUI HG FTFYGBUHN
         data = "00000shows"
         s.send(data.encode())
-        while 1:
-            data = s.recv(1024).decode()
-            if data[10:] == "FIN":
-                break
-            else:
-                rutinas.append(data)
-            s.send("Listo".encode())
+        number = s.recv(1024).decode()
+        number = int(number[12:])
+        rutinas = []
+        print(number)
+        for i in range(number):
+            rutinas.append(s.recv(1024).decode())
         for rut in rutinas:
             imprimir = rut[10:]
             imprimir = imprimir.split()
