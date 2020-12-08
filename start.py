@@ -71,7 +71,7 @@ if(data):
 conn = sqlite3.connect('mrmuscle.sqlite')
 cursor = conn.cursor()
 
-count = 0
+count = 1
 
 while True:
 
@@ -97,7 +97,7 @@ while True:
         active_time = cursor.fetchall()
         tiempo_activo = active_time[0][0]
 
-        tiempo_descanso = 59
+        tiempo_descanso = 60
 
         cursor.execute('SELECT total_time FROM Routine WHERE Routine.id = '+str(id))
         total_time = cursor.fetchall()
@@ -106,11 +106,8 @@ while True:
 
 
 
-<<<<<<< HEAD
+
         data = "EJERCICO 1 "+str(lista_ejercicios[0])
-=======
-        data = "EJERCICIO 1: "+str(lista_ejercicios)
->>>>>>> a17335829d7069caf8d08db7c4fdef1a3695f372
         aux = len(data)
         data = "000"+str(aux)+"start"+data
         sock.send(data.encode())
