@@ -93,16 +93,15 @@ while True:
         active_time = cursor.fetchall()
         tiempo_activo = active_time[0][0]
 
-        tiempo_descanso = 60
+        tiempo_descanso = 59
 
         cursor.execute('SELECT total_time FROM Routine WHERE Routine.id = '+str(id))
         total_time = cursor.fetchall()
         print(total_time)
         tiempo_total = total_time[0][0]
 
-        data = "Iniciando la rutina "+str(id)
+        data = "EJERCICO 1 "+str(lista_ejercicios[0])
         aux = len(data)
         data = "000"+str(aux)+"start"+data
         sock.send(data.encode())
-        print("LARGO LISTA: " + str(len(lista_ejercicios)))
         iniciar()
