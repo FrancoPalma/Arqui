@@ -50,7 +50,7 @@ while True:
         s.send(data.encode())
         data = s.recv(1024).decode()
     elif (servicio == "2"):
-        #de aqui
+        #DE AQUI HG FTFYGBUHN
         data = "00000shows"
         s.send(data.encode())
         while 1:
@@ -61,8 +61,34 @@ while True:
                 rutinas.append(data)
             s.send("Listo".encode())
         for rut in rutinas:
-            print(rut[10:])
-        #hasta aqui
+            imprimir = rut[10:]
+            imprimir = imprimir.split()
+            cout = imprimir[0]
+
+            if imprimir[1] == "1":
+                cout += "| Cardio |"
+            else:
+                cout += "| Masa Muscular |"
+
+            if imprimir[2] == "1":
+                cout += " Ninguno |"
+            elif imprimir[2] == "2":
+                cout += " Piernas y glúteos |"
+            elif imprimir[2] == "3":
+                cout += " Torso y brazos |"
+            elif imprimir[2] == "4":
+                cout += " Abdomen y lumbares |"
+
+            if imprimir[3] == "1":
+                cout += " Baja |"
+            elif imprimir[3] == "2":
+                cout += " Media |"
+            elif imprimir[3] == "3":
+                cout += " Alta |"
+
+            cout += "Tiempo: "+imprimir[4]+" min|"
+            print(cout)
+        #HASTA AQUI XDRCFVYGBUHINJOMK
         while(True):
             print("\nEscoja un servicio")
             print("1. Realizar rutina.")
@@ -92,4 +118,5 @@ while True:
             elif ver == 9:
                 break
     elif (servicio == "9"):
+        print("Hasta luego")
         break
