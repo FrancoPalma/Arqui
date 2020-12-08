@@ -103,7 +103,7 @@ while True:
         total_time = cursor.fetchall()
         total_time = total_time[0][0]
         print(total_time)
-        tiempo_total = [2 , 30]
+        tiempo_total = [total_time , 30]
 
 
 
