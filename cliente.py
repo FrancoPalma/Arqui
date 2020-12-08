@@ -60,16 +60,28 @@ while True:
       for rut in rutinas:
           print(rut[10:])
           
-      while(true):
+      while(True):
           print("\nEscoja un servicio")
           print("1. Realizar rutina.")
           print("2. Editar rutina.")
           print("9. Volver atrás.")
+          ver = input("Que quiere hacer: ")
           if ver == 1:
               numero = int(input("Indique el número de la rutina"))
               data = rutinas[numero].split()
               data = "00090start"+ data[1]
               s.send(data.encode())
+              
+              while True:
+                  data = s.recv(2010).decode()
+                  data = data[10:]
+                  if data == 9:
+                      break
+                  else:
+                      print(data)
+
+
+
           elif ver == 2:
               numero = int(input("Indique el número de la rutina"))
               data = rutinas[numero].split()
