@@ -3,6 +3,7 @@
 import socket
 import sqlite3
 
+
 def DB(conn, cur):
     cur.execute(
         'CREATE TABLE Routine (id INTEGER PRIMARY KEY, active_time INTEGER, rest_time INTEGER, total_time INTEGER, type int)')
@@ -64,11 +65,10 @@ def DB(conn, cur):
     cur.execute('INSERT INTO Exercise (name,detail,type,ex_zone,level) VALUES ("Lunges sin salto","Comienza en posicion de zancada, con un pie al frente y el otro atras, las manos en las caderas, el torso derecho y las rodillas flexionadas formando un angulo de 90. Sin levantarte, cambia tus piernas de posicion", 0, "Piernas", 0)')
     cur.execute('INSERT INTO Exercise (name,detail,type,ex_zone,level) VALUES ("Lunges con salto","Comienza en posicion de zancada, con un pie al frente y el otro atras, las manos en las caderas, el torso derecho y las rodillas flexionadas formando un angulo de 90. Abalanzate con fuerza desde el suelo, saltando y cambiando la posicion de las piernas a mitad de salto", 0, "Piernas", 0)')
 
-
     #CARDIO - Abdominales
     cur.execute('INSERT INTO Exercise (name,detail,type,ex_zone,level) VALUES ("Mountain climber","Tumbate boca abajo en el suelo apoyando las manos con los dedos dirigidos hacia el frente a la anchura de los hombros. Luego comienza el movimiento consistente en llevar de manera alterna las rodillas hacia el pecho.", 0, "Abdominales", 0)')
     cur.execute('INSERT INTO Exercise (name,detail,type,ex_zone,level) VALUES ("Caminar hacia pies","Apoyarse en el suelo con manos y pies estirando codos y rodillas, caminar con las manos hacia los pies, no es necesario tener los pies estirados al finalizar el movimiento.", 0, "Abdominales", 0)')
-    cur.execute('INSERT INTO Exercise (name,detail,type,ex_zone,level) VALUES ("Rodillazo al frente","Colocate de pie con un pie situado ligeramente detrás de ti. Manten el peso sobre el pie delantero y levanta la rodilla trasera frente a ti, repite de manera alterna." 0, "Abdominales", 0)')
+    cur.execute('INSERT INTO Exercise (name,detail,type,ex_zone,level) VALUES ("Rodillazo al frente","Colocate de pie con un pie situado ligeramente detrás de ti. Manten el peso sobre el pie delantero y levanta la rodilla trasera frente a ti, repite de manera alterna.", 0, "Abdominales", 0)')
 
     #CARDIO - Otros
     cur.execute('INSERT INTO Exercise (name,detail,type,ex_zone,level) VALUES ("Jumping Jacks","De pie con las piernas juntas y los brazos pegados a los muslos, da un salto manteniendo la espalda recta y las piernas separadas a la anchura de los hombros. Al juntar las piernas, tus brazos han de tocar los muslos", 0, "Otros", 0)')
@@ -78,10 +78,11 @@ def DB(conn, cur):
 
     conn.close()
 
+
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-host ="200.14.84.235"
-port =5000
-sock.connect((host,port))
+host = "200.14.84.235"
+port = 5000
+sock.connect((host, port))
 
 sock.send('02000sinitdbini'.encode())
 data = sock.recv(2010).decode()

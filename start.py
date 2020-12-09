@@ -21,7 +21,7 @@ def iniciar(m=0, s=0):
         print(s)
 
         if s == 60:
-            m+=1
+            m += 1
 
         if (m == tiempo_total):
             sock.send("00020startFIN")
@@ -33,8 +33,10 @@ def iniciar(m=0, s=0):
             data = "000"+str(aux)+"start"+data
             sock.send(data.encode())
 
-        elif ((s == tiempo_descanso and count < largo) or count == 0)  :
-            data = "EJERCICIO "+str(count+1)+": "+lista_ejercicios[count]+"\nDETALLE " + lista_detalle[count]+"\n"
+        elif ((s == tiempo_descanso and count < largo) or count == 0):
+            data = "EJERCICIO " + \
+                str(count+1)+": "+lista_ejercicios[count] + \
+                "\nDETALLE " + lista_detalle[count]+"\n"
             aux = len(data)
             data = "02000start"+data
             sock.send(data.encode())
@@ -43,7 +45,8 @@ def iniciar(m=0, s=0):
         sock.send("00010start"+str(s))
 
         if s == 60:
-            s = 0    
+            s = 0
+
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 host = "200.14.84.235"
@@ -64,7 +67,6 @@ while True:
 
     id = sock.recv(2010).decode()
 
-    
     if(id):
         id = id[10:]
         lista_ejercicios = []
@@ -86,14 +88,19 @@ while True:
         cursor.execute(
             'SELECT active_time FROM Routine WHERE Routine.id = '+str(id))
         active_time = cursor.fetchall()
+        print(active_time)
         tiempo_activo = active_time[0][0]
 
         tiempo_descanso = 60
 
-        cursor.execute('SELECT total_time FROM Routine WHERE Routine.id = '+str(id))
+        cursor.execute(
+            'SELECT total_time FROM Routine WHERE Routine.id = '+str(id))
         total_time = cursor.fetchall()
         tiempo_total = total_time[0][0]
         print(total_time)
 
         iniciar()
         count = 0
+
+sock.close()
+conn.close()
