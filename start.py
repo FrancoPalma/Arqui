@@ -12,12 +12,14 @@ def iniciar(m=0, s=0):
     global tiempo_total
     global count
     global sock
+    global largo
 
     while True:
         time.sleep(1)
         s += 1
-        sock.send("00010start"+str(s))
-        print(s)
+
+        if (s != 60):
+            sock.send("00010start"+str(s))
 
         if s == 60:
             s = 0
