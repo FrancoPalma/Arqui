@@ -1,21 +1,20 @@
-#!/usr/bin/env python
-# -- coding: utf-8 --
-
 import socket
 import sqlite3
 import time
 
 
-def iniciar(tiempo_activo, tiempo_descanso, tiempo_total, lista_ejercicios, lista_detalle):
+def iniciar(tiempo_activo, tiempo_descanso, tiempo_total, lista_ejercicios, lista_detalle, sock):
     segundo_actual = 0
     minuto_actual = 0
     pos_lista = 0
-
-    while (minuto_actual < tiempo_activo):
+    print(lista_ejercicios)
+    print(lista_detalle)
+    while (minuto_actual < tiempo_total):
         while(segundo_actual < tiempo_activo):
             if(segundo_actual == 0):
-                data = "000300startEJERCICIO: "+str(lista_ejercicios[pos_lista])+ "\nDESCRIPCION: " + str(lista_detalle[pos_lista]) +"\n"
-                sock.send( data.encode() ):
+                data = "00300startEJERCICIO "+str(lista_ejercicios[pos_lista])
+                print(data)
+                sock.send( data.encode() )
             segundo_actual += 1
             data = "00010start"+str(segundo_actual)
             sock.send(data.encode())
@@ -23,8 +22,8 @@ def iniciar(tiempo_activo, tiempo_descanso, tiempo_total, lista_ejercicios, list
         segundo_actual = 0
         while(segundo_actual < tiempo_descanso):
             if(segundo_actual == 0):
-                data = "000300startCOMIENZA EL DESCANSO"
-                sock.send( data.encode() ):
+                data = "00300startCOMIENZA EL DESCANSO"
+                sock.send( data.encode() )
             segundo_actual += 1
             data = "00010start"+str(segundo_actual)
             sock.send(data.encode())
@@ -54,7 +53,7 @@ while True:
 
     id = sock.recv(2010).decode()
     if(id):
-        id = id[10:]
+        id = 4 #id[10:]
         lista_ejercicios = []
         cursor.execute('SELECT Exercise.name FROM Exercise, Routine_exercise, Routine WHERE Exercise.id = Routine_exercise.id_ex AND Routine_exercise.id_routine = Routine.id AND Routine.id = ?', (id,))
         rows = cursor.fetchall()
@@ -70,6 +69,7 @@ while True:
         for row in rows:
             lista_detalle.append(row[0])
 
+
         cursor.execute(
             'SELECT active_time, rest_time, total_time FROM Routine WHERE Routine.id = '+str(id))
         time = cursor.fetchall()
@@ -77,5 +77,5 @@ while True:
         tiempo_descanso = int(time[0][1])
         tiempo_total = int(time[0][2])
 
-        iniciar(tiempo_activo, tiempo_descanso, tiempo_total, lista_ejercicios, lista_detalle)
+        iniciar(tiempo_activo, tiempo_descanso, tiempo_total, lista_ejercicios, lista_detalle, sock)
         count = 0
