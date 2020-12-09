@@ -81,7 +81,9 @@ id = 2
 while True:
 
     #id = sock.recv(2010).decode()
-    if(True):
+
+    data = sock.recv(2010).decode()
+    if(data):
         #id = id[10:]
         lista_ejercicios = []
         cursor.execute('SELECT Exercise.name FROM Exercise, Routine_exercise, Routine WHERE Exercise.id = Routine_exercise.id_ex AND Routine_exercise.id_routine = Routine.id AND Routine.id = ?', (id,))
