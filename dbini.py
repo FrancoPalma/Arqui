@@ -43,15 +43,15 @@ def DB(conn, cur):
     #MUSCULATURA - Abdominales
     # nivel 1
     cur.execute('INSERT INTO Exercise (name,detail,type,ex_zone,level) VALUES ("Plancha sobre antebrazos","Coloquese boca abajo. Extienda las piernas detras de usted. Aguante su peso con los dedos de los pies y los antebrazos. Sus antebrazos deben estar en paralelo entre ellos. Apriete sus musculos abdominales y oblicuos", 1, "Abdominales", 1)')
-    cur.execute('INSERT INTO Exercise (name,detail,type,ex_zone,level) VALUES ("Posicion concava piernas flexionadas","Acostarse en el suelo con las rodillas flexionadas sobre las caderas y levantar los brazos estirados apoyando los lumbraes en el piso, mantener.", 1, "Abdominales", 1)')
+    cur.execute('INSERT INTO Exercise (name,detail,type,ex_zone,level) VALUES ("Posicion concava 1","Acostarse en el suelo con las rodillas flexionadas sobre las caderas y levantar los brazos estirados apoyando los lumbrares en el piso, mantener.", 1, "Abdominales", 1)')
 
     # nivel 2
     cur.execute('INSERT INTO Exercise (name,detail,type,ex_zone,level) VALUES ("Mountain climber","Tumbate boca abajo en el suelo apoyando las manos con los dedos dirigidos hacia el frente a la anchura de los hombros. Luego comienza el movimiento consistente en llevar de manera alterna las rodillas hacia el codo opuesto", 1, "Abdominales", 2)')
-    cur.execute('INSERT INTO Exercise (name,detail,type,ex_zone,level) VALUES ("Posicion concava piernas estiradas","Acostarse en el suelo con las piernas estiradas y los brazos estirados a los costados del torso, levantar las cuatro extremidades apoyando solo los lumbares en el piso, mantener.", 1, "Abdominales", 2)')
+    cur.execute('INSERT INTO Exercise (name,detail,type,ex_zone,level) VALUES ("Posicion concava 2","Acostarse en el suelo con las piernas estiradas y los brazos estirados a los costados del torso, levantar las cuatro extremidades apoyando solo los lumbares en el piso, mantener.", 1, "Abdominales", 2)')
 
     # nivel 3
     cur.execute('INSERT INTO Exercise (name,detail,type,ex_zone,level) VALUES ("Plancha sobre antebrazos","Coloquese boca abajo. Extienda las piernas detrás de usted. Aguante su peso con los dedos de los pies y los antebrazos. Sus antebrazos deben estar en paralelo entre ellos. Apriete sus musculos abdominales y oblicuos", 1, "Abdominales", 3)')
-    cur.execute('INSERT INTO Exercise (name,detail,type,ex_zone,level) VALUES ("Posicion concava piernas estiradas","Acostarse en el suelo con las piernas estiradas y los brazos estirados sobre la cabeza, levantar las cuatro extremidades apoyando solo los lumbares en el piso, mantener.", 1, "Abdominales", 3)')
+    cur.execute('INSERT INTO Exercise (name,detail,type,ex_zone,level) VALUES ("Posicion concava 3","Acostarse en el suelo con las piernas estiradas y los brazos estirados sobre la cabeza, levantar las cuatro extremidades apoyando solo los lumbares en el piso, mantener.", 1, "Abdominales", 3)')
 
     #CARDIO - Torso
     cur.execute('INSERT INTO Exercise (name,detail,type,ex_zone,level) VALUES ("Burpees","Comenzar parado con piernas abiertas a lo ancho de los hombros, agacharse apoyando las manos en el piso, acostarse en el piso, levantarse a posicion agachada, pararse dando un salto y aplaudir las manos sobre la cabeza.", 0, "Torso", 0)')
