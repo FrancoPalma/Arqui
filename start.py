@@ -5,59 +5,40 @@ import socket
 import sqlite3
 import time
 
-def iniciar(m=0,s=0):
-    global tiempo_activo
-    global tiempo_descanso
-    global tiempo_total
-    global count
-    global sock
-    while True:
-        time.sleep(1)
-        s += 1
-        sock.send("00010start"+str(s))
-        print(s)
-        if s >= 60:
-            s=0
-            m=m+1
 
-        if (m == tiempo_total):
-            sock.send("00020startFIN")
-            break
+def iniciar(tiempo_activo, tiempo_descanso, tiempo_total, lista_ejercicios, lista_detalle):
+    segundo_actual = 0
+    minuto_actual = 0
+    pos_lista = 0
 
-        if(s == tiempo_activo and m != tiempo_total):
-            data = "COMENZANDO DESCANSO"
-            aux = len(data)
-            data = "000"+str(aux)+"start"+data
+    while (minuto_actual < tiempo_activo):
+        while(segundo_actual < tiempo_activo):
+            if(segundo_actual == 0):
+                data = "000300startEJERCICIO: "+str(lista_ejercicios[pos_lista])+ "\nDESCRIPCION: " + str(lista_detalle[pos_lista]) +"\n"
+                sock.send( data.encode() ):
+            segundo_actual += 1
+            data = "00010start"+str(segundo_actual)
             sock.send(data.encode())
 
-        if (s == tiempo_descanso and m != tiempo_total):
-            data = "EJERCICIO "+str(count+1)+": "+lista_ejercicios[count]
-            aux = len(data)
-            data = "000"+str(aux)+"start"+data
+        segundo_actual = 0
+        while(segundo_actual < tiempo_descanso):
+            if(segundo_actual == 0):
+                data = "000300startCOMIENZA EL DESCANSO"
+                sock.send( data.encode() ):
+            segundo_actual += 1
+            data = "00010start"+str(segundo_actual)
             sock.send(data.encode())
-            count+=1
+        segundo_actual = 0
+        minuto_actual += 1
+        pos_lista += 1
 
-        """if(s + 10 == tiempo_activo):
-            data = "FALTAN 10 SEGUNDOS PARA EL DESCANSO"
-            aux = len(data)
-            data = "000"+str(aux)+"start"+data
-            sock.send(data.encode())
-
-        elif(s + 10 == 60):
-
-            data = "10 SEGUNDOS PARA EL SIGUIENTE EJERCICIO"
-            aux = len(data)
-            data = "000"+str(aux)+"start"+data
-            sock.send(data.encode())"""
-
-
-
+    sock.send("00020startFIN".encode())
 
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-host ="200.14.84.235"
-port =5000
-sock.connect((host,port))
+host = "200.14.84.235"
+port = 5000
+sock.connect((host, port))
 
 sock.send('02000sinitstart'.encode())
 data = sock.recv(2010).decode()
@@ -75,33 +56,26 @@ while True:
     if(id):
         id = id[10:]
         lista_ejercicios = []
-        cursor.execute('SELECT Exercise.name FROM Exercise, Routine_exercise, Routine WHERE Exercise.id = Routine_exercise.id_ex AND Routine_exercise.id_routine = Routine.id AND Routine.id = ?',(id,))
+        cursor.execute('SELECT Exercise.name FROM Exercise, Routine_exercise, Routine WHERE Exercise.id = Routine_exercise.id_ex AND Routine_exercise.id_routine = Routine.id AND Routine.id = ?', (id,))
         rows = cursor.fetchall()
         print(rows)
         for row in rows:
             lista_ejercicios.append(row[0])
 
-
+        print("LARGO DE LISTA: ", len(lista_ejercicios))
         lista_detalle = []
-        cursor.execute('SELECT Exercise.detail FROM Exercise, Routine_exercise, Routine WHERE Routine_exercise.id_ex = Exercise.id AND Routine_exercise.id_routine = Routine.id AND Routine.id = ?',(id,))
+        cursor.execute('SELECT Exercise.detail FROM Exercise, Routine_exercise, Routine WHERE Routine_exercise.id_ex = Exercise.id AND Routine_exercise.id_routine = Routine.id AND Routine.id = ?', (id,))
         rows = cursor.fetchall()
         print(rows)
         for row in rows:
             lista_detalle.append(row[0])
 
-        cursor.execute('SELECT active_time FROM Routine WHERE Routine.id = '+str(id))
-        active_time = cursor.fetchall()
-        tiempo_activo = active_time[0][0]
+        cursor.execute(
+            'SELECT active_time, rest_time, total_time FROM Routine WHERE Routine.id = '+str(id))
+        time = cursor.fetchall()
+        tiempo_activo = int(time[0][0])
+        tiempo_descanso = int(time[0][1])
+        tiempo_total = int(time[0][2])
 
-        tiempo_descanso = 59
-
-        cursor.execute('SELECT total_time FROM Routine WHERE Routine.id = '+str(id))
-        total_time = cursor.fetchall()
-        print(total_time)
-        tiempo_total = total_time[0][0]
-
-        data = "EJERCICO 1 "+str(lista_ejercicios[0])
-        aux = len(data)
-        data = "000"+str(aux)+"start"+data
-        sock.send(data.encode())
-        iniciar()
+        iniciar(tiempo_activo, tiempo_descanso, tiempo_total, lista_ejercicios, lista_detalle)
+        count = 0
