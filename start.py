@@ -33,7 +33,7 @@ def iniciar(m=0, s=0):
             data = "000"+str(aux)+"start"+data
             sock.send(data.encode())
 
-        elif (s == tiempo_descanso):
+        elif (s == tiempo_descanso and count < largo):
             data = "EJERCICIO "+str(count+1)+": "+lista_ejercicios[count]
             aux = len(data)
             data = "000"+str(aux)+"start"+data
@@ -88,6 +88,7 @@ while True:
         for row in rows:
             lista_ejercicios.append(row[0])
 
+        largo = len(lista_ejercicios)
         print("LARGO DE LISTA: ", len(lista_ejercicios))
         lista_detalle = []
         cursor.execute('SELECT Exercise.detail FROM Exercise, Routine_exercise, Routine WHERE Routine_exercise.id_ex = Exercise.id AND Routine_exercise.id_routine = Routine.id AND Routine.id = ?', (id,))
@@ -103,8 +104,7 @@ while True:
 
         tiempo_descanso = 60
 
-        cursor.execute(
-            'SELECT total_time FROM Routine WHERE Routine.id = '+str(id))
+        cursor.execute('SELECT total_time FROM Routine WHERE Routine.id = '+str(id))
         total_time = cursor.fetchall()
         tiempo_total = total_time[0][0]
         print(total_time)
