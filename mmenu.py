@@ -159,6 +159,11 @@ while True:
                     str(ide) + str(tipo) + str(zona_cuerpo) + \
                     str(intensidad) + str(tiempo_total)
                 s.send(data.encode())
+                while True:
+                    data = s.recv(1024).decode()
+                    if(data):
+                        print(data)
+                        break
 
             #Eliminar
             elif ver == 3:

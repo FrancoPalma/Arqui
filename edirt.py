@@ -110,18 +110,18 @@ while True:
             zona_cuerpo = data[15]
             intensidad = data[16]
             tiempo_total = data[17:19]
-            sock.send("00050delrt" + ide)
+            sock.send("00050delrt1" + str(ide))
 
             while True:
-                data = sock.recv(2010).decode()
-                if(data):
+                data1 = sock.recv(2010).decode()
+                if(data1):
                     break
 
-            sock.send("00050newrt" + data[14:19].encode())
+            sock.send("00050svrut" + data[14:19].encode())
 
             while True:
-                data = sock.recv(2010).decode()
-                if(data):
+                data2 = sock.recv(2010).decode()
+                if(data2):
                     break
 
             print("Rutina actualizada")
