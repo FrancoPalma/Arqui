@@ -97,23 +97,23 @@ while True:
                 id = int(input("Indique el id de la rutina: "))
                 data = "00090start"+ str(id)
                 s.send(data.encode())
-
+                count = 0
                 while True:
                     data = s.recv(2010).decode()
-                    if(data):
-                        data = data[12:]
-                        if(data[12:21] == "EJERCICIO"):
-                            print(data)
-                        elif(len(data) > 2):
-                            data1 = data[0:2]
-                            data2 = data[12:]
-                            if data2 == "FIN":
-                                print("HAZ TERMINADO LA RUTINA")
-                                break
-                            else:
-                                print(data1 + "     " + data2)
+                    if (data):
+                        if(len(data) == 13 or len(data) == 14):
+                            print(data[12:])
+                        
+                        if(count == 0):
+                            print(data[12:])
+                            count+=1
                         else:
-                            print(data)
+                            print(data[12:len(data)-12])
+
+                        if(data[12:] == "FIN"):
+                            print("RUTINA FINALIZADA")
+                            break
+
 
             # Editar
             elif ver == 2:
