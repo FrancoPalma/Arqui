@@ -19,7 +19,7 @@ def iniciar(m=0, s=0):
         sock.send("00010start"+str(s))
         print(s)
 
-        if s >= 60:
+        if s == 60:
             s = 0
             m = m+1
 
