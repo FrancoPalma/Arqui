@@ -3,12 +3,14 @@
 import socket
 import sqlite3
 import time
+import os
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.connect(("200.14.84.235", 5000))
 
-print("="*10+"Bienvenido a MrMuscle"+"="*10)
-opcion = 0
+
+servicio = 0
 while True:
+    print("="*10+"Bienvenido a MrMuscle"+"="*10)
     print("\nEscoja un servicio")
     print("1. Crear rutina")
     print("2. Ver rutinas guardadas")
@@ -16,6 +18,8 @@ while True:
     servicio = input("Ingrese un numero: ")
     servicio = str(servicio)
     if(servicio == "1"):
+        os.system('clear')
+        time.sleep(0.1)
         data = ""
         while 1:
             tipo = int(input(
@@ -26,8 +30,9 @@ while True:
                 print("\nEsta opción no es válida")
         while 1:
             zona_cuerpo = int(input(
-                "\nMúsculo predominante en rutina:\n 1: Ninguno\n 2: Piernas y glúteos\n 3: Torso y brazos\n 4: Abdomen y lumbares \nIngrese número: "))
-            if (zona_cuerpo == 1 or zona_cuerpo == 2 or zona_cuerpo == 3 or zona_cuerpo == 4):
+                "\nMúsculo predominante en rutina:\n 1: Piernas y glúteos\n 2: Torso y brazos\n 3: Abdomen y lumbares \nIngrese número: "))
+            zona_cuerpo+=1
+            if (zona_cuerpo == 2 or zona_cuerpo == 3 or zona_cuerpo == 4):
                 break
             else:
                 print("\nEsta opción no es válida")
@@ -54,12 +59,15 @@ while True:
             str(intensidad) + str(tiempo_total)
         s.send(data.encode())
         data = s.recv(1024).decode()
+        os.system('clear')
+        time.sleep(0.1)
     elif (servicio == "2"):
+        os.system('clear')
+        time.sleep(0.1)
         data = "00000shows"
         s.send(data.encode())
         while True:
             number = s.recv(1024).decode()
-            print("ha llegado:", number)
             if number:
                 break
         number = int(number[12:14])
@@ -68,31 +76,52 @@ while True:
             while True:
                 data2 = s.recv(1024).decode()
                 if data2:
-                    print("pare")
                     break
             rutinas.append(data2)
+            id_antiguo=""
         for rut in rutinas:
             aux = rut[12:]
             aux = aux.split()
             if len(aux) != 0:
-                count = "Id de rutina: "+str(aux[0])+", Duración: " + \
-                    str(aux[1])+" minutos, Tiempo de actividad: "+str(aux[2]) + \
-                    " segundos, Tiempo de descanso: " + \
-                    str(aux[3])+" segundos, Zona: "+str(aux[4]) + \
-                    ", Intensidad: "+str(aux[5])+"\n"
-                print(count)
+                if int(aux[6]) == 0:
+                    tipo = " Cardio"
+                elif int(aux[6]) == 1:
+                    tipo = " Masa Muscular"
+                if id_antiguo == aux[0]:
+                    count = "|                 Duración: " + \
+                        str(aux[1])+" minutos, Tiempo de actividad: "+str(aux[2]) + \
+                        " segundos, Tiempo de descanso: " + \
+                        str(aux[3])+" segundos, Zona: "+str(aux[4]) + \
+                        ", Intensidad: "+str(aux[5])+", Tipo:"+tipo+"|\n"
+                    print(count)
+                else:
+                    count = "|Id de rutina: "+str(aux[0])+", Duración: " + \
+                        str(aux[1])+" minutos, Tiempo de actividad: "+str(aux[2]) + \
+                        " segundos, Tiempo de descanso: " + \
+                        str(aux[3])+" segundos, Zona: "+str(aux[4]) + \
+                        ", Intensidad: "+str(aux[5])+", Tipo:"+tipo+"|\n"
+                    id_antiguo = aux[0]
+                    print(count)
 
         while(True):
             print("\nEscoja un servicio")
             print("1. Realizar rutina.")
             print("2. Editar rutina.")
-            print("3. Eliminar")
+            print("3. Eliminar rutina.")
             print("9. Volver atrás.")
             ver = int(input())
             # Realizar
             if ver == 1:
                 id = int(input("Indique el id de la rutina: "))
                 data = "00090start" + str(id)
+                os.system('clear')
+                time.sleep(0.1)
+                print("La rutina comienza en :")
+                for i in range(3,0,-1):
+                    print(i)
+                    time.sleep(1)
+                print("¡YAAAA!")
+                time.sleep(1)
                 s.send(data.encode())
                 count = 0
                 while True:
@@ -113,7 +142,7 @@ while True:
 
             # Editar
             elif ver == 2:
-                id = input("Indique el id de la rutina")
+                id = input("Indique el id de la rutina: ")
 
                 data = ""
                 while 1:
@@ -125,8 +154,9 @@ while True:
                         print("\nEsta opción no es válida")
                 while 1:
                     zona_cuerpo = int(input(
-                        "\nMúsculo predominante en rutina:\n 1: Ninguno\n 2: Piernas y glúteos\n 3: Torso y brazos\n 4: Abdomen y lumbares \nIngrese número: "))
-                    if (zona_cuerpo == 1 or zona_cuerpo == 2 or zona_cuerpo == 3 or zona_cuerpo == 4):
+                        "\nMúsculo predominante en rutina:\n 1: Piernas y glúteos\n 2: Torso y brazos\n 3: Abdomen y lumbares \nIngrese número: "))
+                    zona_cuerpo+=1
+                    if (zona_cuerpo == 2 or zona_cuerpo == 3 or zona_cuerpo == 4):
                         break
                     else:
                         print("\nEsta opción no es válida")
@@ -163,12 +193,20 @@ while True:
 
             # Eliminar
             elif ver == 3:
-                id = str(input("Indique el id de la rutina"))
+                time.sleep(0.1)
+                id = str(input("Indique el id de la rutina: "))
                 data = "00020delrt1"+id
                 s.send(data.encode())
                 data = s.recv(1024).decode()
                 print(data[10:])
             elif ver == 9:
+                os.system('clear')
+                time.sleep(0.1)
                 break
+            os.system('clear')
+            time.sleep(0.1)
+            break
     elif (servicio == "9"):
+        os.system('clear')
+        time.sleep(0.1)
         break
