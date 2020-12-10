@@ -34,7 +34,7 @@ def DB(conn, cur):
     cur.execute('INSERT INTO Exercise (name,detail,type,ex_zone,level) VALUES ("Superman","Tensa tus musculos abdominales para mantener tu torso estable, luego levanta del suelo unas cuantas pulgadas los brazos, la parte superior del pecho y las piernas simultaneamente. Manten esta posición un momento antes de volver a bajar suavemente tus brazos y piernas", 1, "Torso", 1)')
 
     # nivel 2
-    cur.execute('INSERT INTO Exercise (name,detail,type,ex_zone,level) VALUES ("Flexión normal","Acuestate mirando hacia el suelo, apoyandote unicamente con la punta de los pies y las palmas de las manos. Flexiona los brazos manteniendo en todo momento los codos cerca del cuerpo hasta rozar el suelo con el pecho sin llegar a apoyarse en el. Vuelve a la posicion inicial estirando los brazos", 1, "Torso", 2)')
+    cur.execute('INSERT INTO Exercise (name,detail,type,ex_zone,level) VALUES ("Flexion normal","Acuestate mirando hacia el suelo, apoyandote unicamente con la punta de los pies y las palmas de las manos. Flexiona los brazos manteniendo en todo momento los codos cerca del cuerpo hasta rozar el suelo con el pecho sin llegar a apoyarse en el. Vuelve a la posicion inicial estirando los brazos", 1, "Torso", 2)')
     cur.execute('INSERT INTO Exercise (name,detail,type,ex_zone,level) VALUES ("Superman nadando","Tumbate boca abajo en una superficie comoda, extiende pies y brazos y elevalos levemente para que no toquen el suelo, a continuación pasa a elevar pies y brazos simultaneamente (como al nadar)", 1, "Torso", 2)')
 
     # nivel 3
@@ -60,8 +60,8 @@ def DB(conn, cur):
     cur.execute('INSERT INTO Exercise (name,detail,type,ex_zone,level) VALUES ("Caminar hacia pies","Apoyarse en el suelo con manos y pies estirando codos y rodillas, caminar con las manos hacia los pies, no es necesario tener los pies estirados al finalizar el movimiento.", 0, "Torso", 0)')
 
     #CARDIO - Piernas
-    cur.execute('INSERT INTO Exercise (name,detail,type,ex_zone,level) VALUES ("Sentadillas sin salto","Coloca las manos en el suelo y mantén la cabeza erguida. Desplaza las piernas hacia atras con los pies juntos y haz una flexión de pecho, para luego volver a la posición inicial", 0, "Piernas", 0)')
-    cur.execute('INSERT INTO Exercise (name,detail,type,ex_zone,level) VALUES ("Sentadillas con salto","Coloca las manos en el suelo y mantén la cabeza erguida. Desplaza las piernas hacia atras con los pies juntos y haz una flexión de pecho, para luego volver a la posición inicial y saltar", 0, "Piernas", 0)')
+    cur.execute('INSERT INTO Exercise (name,detail,type,ex_zone,level) VALUES ("Sentadillas sin salto","Coloca las manos en el suelo y manten la cabeza erguida. Desplaza las piernas hacia atras con los pies juntos y haz una flexion de pecho, para luego volver a la posición inicial", 0, "Piernas", 0)')
+    cur.execute('INSERT INTO Exercise (name,detail,type,ex_zone,level) VALUES ("Sentadillas con salto","Coloca las manos en el suelo y manten la cabeza erguida. Desplaza las piernas hacia atras con los pies juntos y haz una flexion de pecho, para luego volver a la posición inicial y saltar", 0, "Piernas", 0)')
     cur.execute('INSERT INTO Exercise (name,detail,type,ex_zone,level) VALUES ("Lunges sin salto","Comienza en posicion de zancada, con un pie al frente y el otro atras, las manos en las caderas, el torso derecho y las rodillas flexionadas formando un angulo de 90. Sin levantarte, cambia tus piernas de posicion", 0, "Piernas", 0)')
     cur.execute('INSERT INTO Exercise (name,detail,type,ex_zone,level) VALUES ("Lunges con salto","Comienza en posicion de zancada, con un pie al frente y el otro atras, las manos en las caderas, el torso derecho y las rodillas flexionadas formando un angulo de 90. Abalanzate con fuerza desde el suelo, saltando y cambiando la posicion de las piernas a mitad de salto", 0, "Piernas", 0)')
 
